@@ -1,0 +1,53 @@
+#gameField{
+    display:grid;
+    background-color:#000000;
+    grid-template-columns: repeat(60, 12px);
+    margin: 0 auto;
+    background-image: url('../../assets/images/map.png');
+    background-repeat: no-repeat;
+    background-size:  contain;
+    
+
+
+
+    // grid-area: gameField;
+    //padding:10px;
+    //padding-top: 10px;
+    //margin-left: 10px;
+    //border-radius:10px;
+    //border:1px solid gray;
+}
+
+#temp {
+    padding-top: 10px;
+    
+    margin: 0 auto;
+    //text-align: center;
+    //margin-left: auto;
+   // margin-right: auto;
+}
+
+.redGhostRight {
+    background-image: url('../../assets/images/redGhostRight.png');
+    background-repeat: no-repeat;
+    background-size:  contain;
+  }
+
+//   .yellowGhostRight {
+//     background-image: url('../../assets/images/yellowGhostRight.png');
+//     background-repeat: no-repeat;
+//     background-size:  contain;
+//   }
+
+//   .blueGhostRight {
+//     background-image: url('../../assets/images/blueGhostRight.png');
+//     background-repeat: no-repeat;
+//     background-size:  contain;
+//   }
+
+//   .greenGhostRight {
+//     background-image: url('../../assets/images/greenGhostRight.png');
+//     background-repeat: no-repeat;
+//     background-size:  contain;
+//   }
+
