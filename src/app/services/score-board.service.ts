@@ -11,7 +11,10 @@ export class ScoreBoardService {
   private scores: number[] = [];
   private messages: string[] = [];
 
-  constructor(private auth: AuthenticationService, private http: HttpClient, private router: Router) { }
+  constructor(private auth: AuthenticationService, private http: HttpClient, private router: Router) {
+    // testing
+    this.scores.push(1832);
+   }
 
   public add(score: number, message: string) {
     this.http.post<any>('http://localhost:3000/scoreboard', {

@@ -3,13 +3,9 @@
     background-color:#000000;
     grid-template-columns: repeat(60, 12px);
     margin: 0 auto;
-    background-image: url('../../assets/images/map.png');
-    background-repeat: no-repeat;
-    background-size:  contain;
-    
-
-
-
+    // background-image: url('../../assets/images/map.png');
+    // background-repeat: no-repeat;
+    // background-size:  contain;
     // grid-area: gameField;
     //padding:10px;
     //padding-top: 10px;
@@ -18,20 +14,46 @@
     //border:1px solid gray;
 }
 
-#temp {
-    padding-top: 10px;
-    
+#scoreDiv {
+    padding-top: 5px;
     margin: 0 auto;
-    //text-align: center;
-    //margin-left: auto;
-   // margin-right: auto;
 }
 
-.redGhostRight {
-    background-image: url('../../assets/images/redGhostRight.png');
-    background-repeat: no-repeat;
-    background-size:  contain;
-  }
+.labelStyle {
+  margin-right: 10px;
+}
+
+span {
+  color: #ff0000;
+}
+
+input {
+  height:25px;
+}
+
+#submitDiv {
+  margin-top: 5px;
+}
+
+button {
+  border-radius: 5px;
+  height:25px;
+  border:none;
+  background: rgb(56, 141, 251);
+  margin: 0.1em;
+  margin-left: 10px;
+}
+
+button:hover {
+  background: rgb(56, 42, 255); /* Green */
+  color: white;
+}
+
+// .redGhostRight {
+//     background-image: url('../../assets/images/redGhostRight.png');
+//     background-repeat: no-repeat;
+//     background-size:  contain;
+//   }
 
 //   .yellowGhostRight {
 //     background-image: url('../../assets/images/yellowGhostRight.png');

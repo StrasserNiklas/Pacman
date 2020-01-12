@@ -1,6 +1,19 @@
-<div id="temp">
+
+<div id="scoreDiv" tabindex="0" (keydown)="onKey($event)" >
+    <div class="center">
+        <label class="labelStyle"><b>Lives: <span>2</span></b> </label>
+        <label class="labelStyle"><b>Score: <span>{{score}}</span></b> </label>
+        <label class="labelStyle"><b>Highscore: <span>{{scoreService.scores[0]}}</span></b> </label>
+        <button [routerLink]="['/scoreboard']">Scoreboard</button>
+    </div>
+
     <div id="gameField">
-    
+
+    </div>
+
+    <div class="center" *ngIf="this.isGameOver" id="submitDiv"> 
+        <label class="labelStyle"><b>Enter message:</b> </label>
+        <input [(ngModel)]="this.scoreMessage">
+        <button (click)="this.onSubmitScore()" >Submit score</button>
     </div>
 </div>
-

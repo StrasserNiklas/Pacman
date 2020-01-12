@@ -4,12 +4,13 @@ import { RegistrationPageComponent } from './registration-page/registration-page
 import { GamePageComponent } from './game-page/game-page.component';
 import { ScoreboardPageComponent } from './scoreboard-page/scoreboard-page.component';
 import { IsLoggedInGuardServiceService } from './guards/is-logged-in-guard-service.service';
+import { HasScoreGuardService } from './guards/has-score-guard.service';
 
 const routes: Routes = [
   { path: 'home', component: RegistrationPageComponent },
   { path: '',   redirectTo: '/home', pathMatch: 'full' },
-  { path: 'game', component: GamePageComponent},//, canActivate: [IsLoggedInGuardServiceService] },
-  { path: 'scoreboard', component: ScoreboardPageComponent, canActivate: [IsLoggedInGuardServiceService]  },
+  { path: 'game', component: GamePageComponent},//, canActivate: [IsLoggedInGuardServiceService, HasScoreGuardService] },
+  { path: 'scoreboard', component: ScoreboardPageComponent},//, canActivate: [HasScoreGuardService]  },
   { path: '**', component: RegistrationPageComponent },
 ];
 
