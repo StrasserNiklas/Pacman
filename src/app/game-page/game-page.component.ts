@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ScoreBoardService } from '../services/score-board.service';
 import { Map } from '../gamelogic/map';
+import { Pacman } from '../gamelogic/pacman';
+import { Direction } from '../gamelogic/direction.enum';
 
 @Component({
   selector: 'app-game-page',
@@ -11,41 +13,47 @@ export class GamePageComponent implements OnInit {
   scoreMessage: string = '';
   score: number = 0;
   isGameOver: boolean = false; //TODO CALL ASSIGNSIZE WHEN GAME IS OVER!!!!!!!!!!
-  width: number = 31;//17;//31;s
-  height: number = 28;//15;//28;
-  grid = new Array(this.height);
-  map: Map;
+  width: number = 31;
+  height: number = 28;
+  //grid = new Array(this.height);
+  public map: Map;
+  public pacman: Pacman;
 
   constructor(private scoreService: ScoreBoardService) { }
 
   ngOnInit() {
-    this.initializeGrids();
+    //this.initializeGrids();
     window.addEventListener('resize', this.assignSize.bind(this));
     this.assignSize();
     this.map = new Map(document);
     this.map.createGrid();
     this.map.createMap();
+
+    this.pacman = new Pacman(this.map);
+    this.pacman.currentX = 1;
+    this.pacman.currentY = 1;
+    this.pacman.startMoving();
   }
 
   onKey(event: KeyboardEvent) {
     switch (event.keyCode) {
       case 37: { // left
-        console.log('left');
+        this.pacman.setDirection(Direction.Left);
         break;
       }
 
       case 38: { // up
-        console.log('up');
+        this.pacman.setDirection(Direction.Up);
         break;
       }
 
       case 39: { // right
-        console.log('right');
+        this.pacman.setDirection(Direction.Right);
         break;
       }
 
       case 40: { // down
-        console.log('down');
+        this.pacman.setDirection(Direction.Down);
         break;
       }
 
@@ -59,12 +67,6 @@ export class GamePageComponent implements OnInit {
     this.scoreService.add(this.score, this.scoreMessage);
     this.isGameOver = false;
     this.scoreMessage = '';
-  }
-
-  initializeGrids() {
-    for (var i = 0; i < this.height; i++) {
-      this.grid[i] = new Array(this.width);
-    }
   }
 
   assignSize() {
@@ -104,6 +106,12 @@ export class GamePageComponent implements OnInit {
   }
 
 }
+
+  // initializeGrids() {
+  //   for (var i = 0; i < this.height; i++) {
+  //     this.grid[i] = new Array(this.width);
+  //   }
+  // }
 
 // createGrid() {
   //   var gameField = document.getElementById('gameField');

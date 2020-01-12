@@ -1,12 +1,17 @@
+import { Direction } from '../gamelogic/direction.enum';
+
 export class Map {
 
-    public map;
+    public grid;
     width: number = 31;
     height: number = 28;
     document: Document;
+    public mapScore = 0;
+    //grid = new Array(this.height);
 
     constructor(document: Document) {
         this.document = document;
+        //this.initializeGrid();
 
         // 0 = nothing
         // 1 = wall
@@ -19,9 +24,9 @@ export class Map {
         // 8 = green
         // 9 = yellow
         // 10 = teleportation
-        this.map = [
+        this.grid = [
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+            [1, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
             [1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1],
             [1, 5, 1, 0, 0, 1, 2, 2, 2, 2, 2, 2, 1, 1, 2, 1, 2, 1, 2, 1, 0, 0, 1, 2, 1, 0, 0, 0, 1, 5, 1],
             [1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1],
@@ -37,7 +42,7 @@ export class Map {
             [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 0, 1, 0, 0, 7, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
             [0, 0, 0, 0, 1, 2, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 9, 0, 1, 0, 1, 0, 0, 1, 2, 1, 0, 0, 0, 0],
             [0, 0, 0, 0, 1, 2, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 2, 1, 0, 0, 0, 0],
-            [1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
             [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
             [1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1],
             [1, 2, 2, 2, 1, 0, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 0, 0, 1, 2, 1, 2, 2, 2, 1],
@@ -50,6 +55,16 @@ export class Map {
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
         ];
     }
+
+    checkHit() {
+
+    }
+
+    // initializeGrid() {
+    //     for (var i = 0; i < this.height; i++) {
+    //       this.grid[i] = new Array(this.width);
+    //     }
+    //   }
 
     createGrid() {
         var gameField = this.document.getElementById('gameField');
@@ -78,39 +93,69 @@ export class Map {
         for (let i = 0; i < this.height; i++) {
           for (let j = 0; j < this.width; j++) {
     
-            var x = this.map[i][j];
+            var x = this.grid[i][j];
     
-            if (this.map[i][j] === 1) {
+            if (this.grid[i][j] === 1) {
               this.setAsMap(i, j);
-            } else if (this.map[i][j] === 2) {
+            } else if (this.grid[i][j] === 2) {
               this.setAsFood(i, j);
-            } else if (this.map[i][j] === 3) {
+            } else if (this.grid[i][j] === 3) {
               this.setAsGate(i, j);
-            } else if (this.map[i][j] === 4) {
-              this.setAsPacman(i, j);
-            } else if (this.map[i][j] === 5) {
+            } else if (this.grid[i][j] === 4) {
+              this.setAsPacman(i, j, Direction.Right);
+            } else if (this.grid[i][j] === 5) {
               this.setAsPowerup(i, j);
-            } else if (this.map[i][j] === 6) {
+            } else if (this.grid[i][j] === 6) {
               this.setAsRedGhost(i, j);
-            } else if (this.map[i][j] === 7) {
+            } else if (this.grid[i][j] === 7) {
               this.setAsBlueGhost(i, j);
-            } else if (this.map[i][j] === 8) {
+            } else if (this.grid[i][j] === 8) {
               this.setAsGreenGhost(i, j);
-            } else if (this.map[i][j] === 9) {
+            } else if (this.grid[i][j] === 9) {
               this.setAsYellowGhost(i, j);
-            } else if (this.map[i][j] === 10) {
+            } else if (this.grid[i][j] === 10) {
               this.setAsGate(i, j);
             }
     
           }
         }
       }
-    
-      setAsPacman(i, j) {
+
+      setAsBackground(i, j) {
         var div = this.document.getElementById(i + '_' + j);
-        div.style.backgroundImage = "url('../../assets/images/pacman/pacmanDown.png')";
+        div.style.backgroundColor = '';
+        div.style.backgroundImage = 'none';
+      }
+    
+      setAsPacman(i, j, direction: Direction ) {
+        var div = this.document.getElementById(i + '_' + j);
+
+        switch (direction) {
+            case Direction.Left: {
+                div.style.backgroundImage = "url('../../assets/images/pacman/pacmanLeft.png')";
+                break;
+            }
+
+            case Direction.Right: {
+                div.style.backgroundImage = "url('../../assets/images/pacman/pacmanRight.png')";
+                break;
+            }
+
+            case Direction.Up: {
+                div.style.backgroundImage = "url('../../assets/images/pacman/pacmanUp.png')";
+                break;
+            }
+
+            case Direction.Down: {
+                div.style.backgroundImage = "url('../../assets/images/pacman/pacmanDown.png')";
+                break;
+            }
+        }
+
         div.style.backgroundRepeat = 'no-repeat';
         div.style.backgroundSize = 'contain';
+        div.style.width = '100%';
+        div.style.height = '100%';
       }
     
       setAsMap(i, j) {
@@ -145,6 +190,8 @@ export class Map {
         div.style.backgroundImage = "url('../../assets/images/ghosts/redGhostRight.png')";
         div.style.backgroundRepeat = 'no-repeat';
         div.style.backgroundSize = 'contain';
+        div.style.width = '100%';
+        div.style.height = '100%';
       }
     
       setAsScaredGhost(i, j) {
@@ -152,6 +199,8 @@ export class Map {
         div.style.backgroundImage = "url('../../assets/images/ghosts/scaredGhost.png')";
         div.style.backgroundRepeat = 'no-repeat';
         div.style.backgroundSize = 'contain';
+        div.style.width = '100%';
+        div.style.height = '100%';
       }
     
       setAsDeadGhost(i, j) {
@@ -159,6 +208,8 @@ export class Map {
         div.style.backgroundImage = "url('../../assets/images/ghosts/deadGhost.png')";
         div.style.backgroundRepeat = 'no-repeat';
         div.style.backgroundSize = 'contain';
+        div.style.width = '100%';
+        div.style.height = '100%';
       }
     
       setAsBlueGhost(i, j) {
@@ -166,6 +217,8 @@ export class Map {
         div.style.backgroundImage = "url('../../assets/images/ghosts/blueGhostRight.png')";
         div.style.backgroundRepeat = 'no-repeat';
         div.style.backgroundSize = 'contain';
+        div.style.width = '100%';
+        div.style.height = '100%';
       }
     
       setAsGreenGhost(i, j) {
@@ -173,6 +226,8 @@ export class Map {
         div.style.backgroundImage = "url('../../assets/images/ghosts/greenGhostRight.png')";
         div.style.backgroundRepeat = 'no-repeat';
         div.style.backgroundSize = 'contain';
+        div.style.width = '100%';
+        div.style.height = '100%';
       }
     
       setAsYellowGhost(i, j) {
@@ -180,5 +235,7 @@ export class Map {
         div.style.backgroundImage = "url('../../assets/images/ghosts/yellowGhostRight.png')";
         div.style.backgroundRepeat = 'no-repeat';
         div.style.backgroundSize = 'contain';
+        div.style.width = '100%';
+        div.style.height = '100%';
       }
 }

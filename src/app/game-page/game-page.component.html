@@ -1,8 +1,8 @@
 
 <div id="scoreDiv" tabindex="0" (keydown)="onKey($event)" >
     <div class="center">
-        <label class="labelStyle"><b>Lives: <span>2</span></b> </label>
-        <label class="labelStyle"><b>Score: <span>{{score}}</span></b> </label>
+        <label class="labelStyle"><b>Lives: <span>{{this.pacman.lives}}</span></b> </label>
+        <label class="labelStyle"><b>Score: <span>{{this.map.mapScore}}</span></b> </label>
         <label class="labelStyle"><b>Highscore: <span>{{scoreService.scores[0]}}</span></b> </label>
         <button [routerLink]="['/scoreboard']">Scoreboard</button>
     </div>
