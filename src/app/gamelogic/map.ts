@@ -2,6 +2,7 @@ import { Direction } from '../gamelogic/direction.enum';
 
 export class Map {
 
+    foodCount: number = 0;
     public grid;
     width: number = 31;
     height: number = 28;
@@ -26,7 +27,7 @@ export class Map {
         // 10 = teleportation
         this.grid = [
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+            [1, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 10, 1],
             [1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1],
             [1, 5, 1, 0, 0, 1, 2, 2, 2, 2, 2, 2, 1, 1, 2, 1, 2, 1, 2, 1, 0, 0, 1, 2, 1, 0, 0, 0, 1, 5, 1],
             [1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1],
@@ -51,7 +52,7 @@ export class Map {
             [1, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 0, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1],
             [1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 1, 2, 1, 0, 0, 0, 1, 2, 1, 0, 0, 0, 0, 1, 2, 2, 2, 1],
             [1, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 5, 1],
-            [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+            [1, 10, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
         ];
     }
@@ -98,6 +99,7 @@ export class Map {
             if (this.grid[i][j] === 1) {
               this.setAsMap(i, j);
             } else if (this.grid[i][j] === 2) {
+              this.foodCount++;
               this.setAsFood(i, j);
             } else if (this.grid[i][j] === 3) {
               this.setAsGate(i, j);
@@ -114,7 +116,7 @@ export class Map {
             } else if (this.grid[i][j] === 9) {
               this.setAsYellowGhost(i, j);
             } else if (this.grid[i][j] === 10) {
-              this.setAsGate(i, j);
+              this.setAsPortal(i, j);
             }
     
           }
@@ -161,6 +163,13 @@ export class Map {
       setAsMap(i, j) {
         var div = this.document.getElementById(i + '_' + j);
         div.style.backgroundColor = '#0918e2';
+      }
+
+      setAsPortal(i, j) {
+        var div = this.document.getElementById(i + '_' + j);
+        div.style.backgroundImage = "url('../../assets/images/portal.png')";
+        div.style.backgroundRepeat = 'no-repeat';
+        div.style.backgroundSize = 'contain';
       }
     
       setAsFood(i, j) {
