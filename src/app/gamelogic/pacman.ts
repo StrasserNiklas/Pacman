@@ -31,7 +31,7 @@ export class Pacman {
     }
 
     checkDetection(value: number, currentY: number, currentX: number) {
-        switch (value) { //TODO AUSLAGERN !!!!!!!
+        switch (value) { 
             case 2:
                 this.map.mapScore = this.map.mapScore + 5;
                 this.map.setAsBackground(this.currentY, this.currentX);
@@ -55,11 +55,18 @@ export class Pacman {
                 } else if (currentY === 26 && currentX === 1 && this.direction === Direction.Left) {
                     this.currentX = 28;
                     this.currentY = 1;
-                } 
-                
-                
+                }
 
                 this.map.grid[this.currentY][this.currentX] = 0;
+                break;
+
+            case undefined:
+                if (currentY === 13 && currentX === 0) {
+
+                    //this.currentX = 
+                } else if (currentY === 13 && currentX === 30) {
+
+                }
                 break;
         }
     }
@@ -81,7 +88,7 @@ export class Pacman {
                         this.map.setAsPacman(this.currentY, this.currentX - 1, Direction.Left);
                     }
 
-                    
+
                     this.currentX--;
                 } else {
                     this.direction = this.oldDirection;
@@ -92,7 +99,7 @@ export class Pacman {
             case Direction.Right: {
                 if (this.map.grid[this.currentY][this.currentX + 1] !== 1) {
                     this.map.setAsBackground(this.currentY, this.currentX);
-                    
+
                     var value = this.map.grid[this.currentY][this.currentX + 1];
 
                     this.checkDetection(value, this.currentY, this.currentX + 1);
@@ -103,7 +110,7 @@ export class Pacman {
                         this.map.setAsPacman(this.currentY, this.currentX + 1, Direction.Right);
                     }
 
-                    
+
                     this.currentX++;
                 } else {
                     this.direction = this.oldDirection;
@@ -125,7 +132,7 @@ export class Pacman {
                         this.map.setAsPacman(this.currentY - 1, this.currentX, Direction.Up);
                     }
 
-                    
+
                     this.currentY--;
                 } else {
                     this.direction = this.oldDirection;
@@ -147,7 +154,7 @@ export class Pacman {
                         this.map.setAsPacman(this.currentY + 1, this.currentX, Direction.Down);
                     }
 
-                    
+
                     this.currentY++;
                 } else {
                     this.direction = this.oldDirection;
