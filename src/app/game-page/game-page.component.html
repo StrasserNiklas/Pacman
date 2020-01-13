@@ -1,15 +1,24 @@
 
 <div id="scoreDiv" tabindex="0" (keydown)="onKey($event)" >
     <div class="center">
+        <button *ngIf="!this.gameHasStarted" (click)="this.onStartGame()" >Start game</button>
         <label class="labelStyle"><b>Lives: <span>{{this.pacman.lives}}</span></b> </label>
         <label class="labelStyle"><b>Score: <span>{{this.map.mapScore}}</span></b> </label>
         <label class="labelStyle"><b>Highscore: <span>{{scoreService.scores[0]}}</span></b> </label>
         <button [routerLink]="['/scoreboard']">Scoreboard</button>
     </div>
 
-    <div id="gameField">
 
+    <div id="startOverlay" class="startOverlay"></div>
+    <div id="over" class="gameOverOverlay"></div>
+    
+    
+    <div id="gameField" >
+        
     </div>
+
+    <label>{{this.map.foodCount}}</label>
+
 
     <div class="center" *ngIf="this.isGameOver" id="submitDiv"> 
         <label class="labelStyle"><b>Enter message:</b> </label>

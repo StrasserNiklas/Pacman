@@ -3,15 +3,31 @@
     background-color:#000000;
     grid-template-columns: repeat(60, 12px);
     margin: 0 auto;
-    // background-image: url('../../assets/images/map.png');
-    // background-repeat: no-repeat;
-    // background-size:  contain;
-    // grid-area: gameField;
-    //padding:10px;
-    //padding-top: 10px;
-    //margin-left: 10px;
-    //border-radius:10px;
-    //border:1px solid gray;
+    z-index: 1;
+    position: relative;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+.gameOverOverlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 500;
+  background: rgba(255, 0, 0, 0.5);
+  overflow:hidden;
+}
+
+.startOverlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 500;
+  background: rgba(240, 239, 239, 0.5);
+  overflow:hidden;
 }
 
 #scoreDiv {
@@ -20,7 +36,8 @@
 }
 
 .labelStyle {
-  margin-right: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 span {
@@ -42,6 +59,7 @@ button {
   background: rgb(56, 141, 251);
   margin: 0.1em;
   margin-left: 10px;
+  z-index: 999;
 }
 
 button:hover {

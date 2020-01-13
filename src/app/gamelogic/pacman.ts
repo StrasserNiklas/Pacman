@@ -27,7 +27,11 @@ export class Pacman {
     }
 
     startMoving() {
-        this.intervallId = setInterval(this.move.bind(this), 250);
+        this.intervallId = setInterval(this.move.bind(this), 200);
+    }
+
+    stopMoving() {
+        clearInterval(this.intervallId);
     }
 
     checkDetection(value: number, currentY: number, currentX: number) {
@@ -37,6 +41,11 @@ export class Pacman {
                 this.map.setAsBackground(this.currentY, this.currentX);
                 this.map.grid[this.currentY][this.currentX] = 0;
                 this.map.foodCount--;
+
+                if (this.map.foodCount === 0) {
+                    this.stopMoving();
+                    this.map.gamePage.setGameOver();
+                }
                 break;
 
             case 10:
@@ -60,12 +69,14 @@ export class Pacman {
                 this.map.grid[this.currentY][this.currentX] = 0;
                 break;
 
-            case undefined:
-                if (currentY === 13 && currentX === 0) {
-
+            case 11:
+                if (this.currentY === 13 && this.currentX === 0) {
+                    this.currentX = 30;
+                    this.currentY = 13;
                     //this.currentX = 
-                } else if (currentY === 13 && currentX === 30) {
-
+                } else if (this.currentY === 13 && this.currentX === 30) {
+                    this.currentX = 0;
+                    this.currentY = 13;
                 }
                 break;
         }
@@ -78,7 +89,8 @@ export class Pacman {
                     this.map.setAsBackground(this.currentY, this.currentX);
                     //this.map.grid[this.currentY][this.currentX] = 0; //TODO make happen in setAsBackground...
 
-                    var value = this.map.grid[this.currentY][this.currentX - 1]
+                    //var value = this.map.grid[this.currentY][this.currentX - 1] OLD
+                    var value = this.map.grid[this.currentY][this.currentX]
 
                     this.checkDetection(value, this.currentY, this.currentX - 1);
 
@@ -100,7 +112,8 @@ export class Pacman {
                 if (this.map.grid[this.currentY][this.currentX + 1] !== 1) {
                     this.map.setAsBackground(this.currentY, this.currentX);
 
-                    var value = this.map.grid[this.currentY][this.currentX + 1];
+                    //var value = this.map.grid[this.currentY][this.currentX + 1]; OLD
+                    var value = this.map.grid[this.currentY][this.currentX];
 
                     this.checkDetection(value, this.currentY, this.currentX + 1);
 
@@ -122,7 +135,8 @@ export class Pacman {
                 if (this.map.grid[this.currentY - 1][this.currentX] !== 1) {
                     this.map.setAsBackground(this.currentY, this.currentX);
 
-                    var value = this.map.grid[this.currentY - 1][this.currentX];
+                    //var value = this.map.grid[this.currentY - 1][this.currentX]; OLD
+                    var value = this.map.grid[this.currentY][this.currentX];
 
                     this.checkDetection(value, this.currentY, this.currentX);
 
@@ -144,7 +158,8 @@ export class Pacman {
                 if (this.map.grid[this.currentY + 1][this.currentX] !== 1) {
                     this.map.setAsBackground(this.currentY, this.currentX);
 
-                    var value = this.map.grid[this.currentY + 1][this.currentX];
+                    //var value = this.map.grid[this.currentY + 1][this.currentX]; OLD
+                    var value = this.map.grid[this.currentY][this.currentX];
 
                     this.checkDetection(value, this.currentY + 1, this.currentX);
 

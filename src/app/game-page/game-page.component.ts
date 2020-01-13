@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ScoreBoardService } from '../services/score-board.service';
 import { Map } from '../gamelogic/map';
 import { Pacman } from '../gamelogic/pacman';
@@ -13,26 +13,41 @@ export class GamePageComponent implements OnInit {
   scoreMessage: string = '';
   score: number = 0;
   isGameOver: boolean = false; //TODO CALL ASSIGNSIZE WHEN GAME IS OVER!!!!!!!!!!
+  gameHasStarted: boolean = false;
   width: number = 31;
   height: number = 28;
-  //grid = new Array(this.height);
   public map: Map;
   public pacman: Pacman;
+
+  @ViewChild('startOverlay', { static: false }) startOverlay: ElementRef;
 
   constructor(private scoreService: ScoreBoardService) { }
 
   ngOnInit() {
-    //this.initializeGrids();
+    this.gameHasStarted = false;
     window.addEventListener('resize', this.assignSize.bind(this));
     this.assignSize();
-    this.map = new Map(document);
+    this.map = new Map(document, this);
     this.map.createGrid();
     this.map.createMap();
-
     this.pacman = new Pacman(this.map);
     this.pacman.currentX = 1;
     this.pacman.currentY = 1;
+
+
+    this.setStartOverlay();
+
+  }
+
+  setGameOver() {
+    this.isGameOver = true;
+    this.setGameoverOverlay();
+  }
+
+  onStartGame() {
+    this.gameHasStarted = true;
     this.pacman.startMoving();
+    document.getElementById("startOverlay").style.display = "none";
   }
 
   onKey(event: KeyboardEvent) {
@@ -92,10 +107,18 @@ export class GamePageComponent implements OnInit {
 
     if (size < 903) {
       gameField.style.width = size - size / 20 + 'px';
-      var children = gameField.children; // document.getElementsByName("gameField"); //
+      //var children = gameField.children; // document.getElementsByName("gameField"); //
 
       gameField.style.gridTemplateColumns = `repeat(${this.width}, ${(size - size / 20) / this.width}px)`;
       gameField.style.gridTemplateRows = `repeat(${this.height}, ${(size - size / 20) / this.height}px)`;
+
+      if (!this.gameHasStarted) {
+        this.setStartOverlay();
+      }
+
+      if (this.isGameOver) {
+        this.setGameoverOverlay();
+      }
 
       // for (let i = 0; i < children.length; i++) {
       //   const child = (children[i] as HTMLElement);
@@ -103,6 +126,30 @@ export class GamePageComponent implements OnInit {
       //   //child.style.height = '100%';
       // }
     }
+  }
+
+  setStartOverlay() {
+    var field = document.getElementById('gameField');
+    var w = field.clientWidth;
+    var h = field.clientWidth;
+    var overlay = document.getElementById('startOverlay');
+    overlay.style.height = h + 'px';
+    overlay.style.width = w + 'px';
+    overlay.style.marginLeft = ((window.innerWidth - w) / 2) + 'px';
+    overlay.style.display = 'block'
+    document.getElementById("over").style.display = 'none';
+  }
+
+  setGameoverOverlay() {
+    var field = document.getElementById('gameField');
+    var w = field.clientWidth;
+    var h = field.clientWidth;
+    var overlay = document.getElementById('over');
+    overlay.style.height = h + 'px';
+    overlay.style.width = w + 'px';
+    overlay.style.marginLeft = ((window.innerWidth - w) / 2) + 'px';
+    overlay.style.display = "block";
+    document.getElementById("startOverlay").style.display = 'none';
   }
 
 }

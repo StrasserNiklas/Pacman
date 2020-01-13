@@ -1,4 +1,5 @@
 import { Direction } from '../gamelogic/direction.enum';
+import { GamePageComponent } from '../game-page/game-page.component';
 
 export class Map {
 
@@ -7,11 +8,13 @@ export class Map {
     width: number = 31;
     height: number = 28;
     document: Document;
+    gamePage: GamePageComponent;
     public mapScore = 0;
     //grid = new Array(this.height);
 
-    constructor(document: Document) {
+    constructor(document: Document, gamePage: GamePageComponent) {
         this.document = document;
+        this.gamePage = gamePage;
         //this.initializeGrid();
 
         // 0 = nothing
@@ -82,6 +85,7 @@ export class Map {
             newDiv.style.display = 'block';
             newDiv.style.height = '100%';
             newDiv.style.width = '100%';
+            newDiv.style.zIndex = '-1000';
             //newDiv.style.border = '1px solid lightgray';
             newDiv.setAttribute('id', i + '_' + j);
             gameField.appendChild(newDiv);
