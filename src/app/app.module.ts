@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { RegistrationPageComponent } from './registration-page/registration-page.component';
 import { GamePageComponent } from './game-page/game-page.component';
 import { ScoreboardPageComponent } from './scoreboard-page/scoreboard-page.component';
+import { AuthenticationInterceptorService } from './services/authentication-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,11 @@ import { ScoreboardPageComponent } from './scoreboard-page/scoreboard-page.compo
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
+  providers: [ {
+    provide: HTTP_INTERCEPTORS,
+        useClass: AuthenticationInterceptorService,
+        multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

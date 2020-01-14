@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+//import * as passwordhasher from 'password-hash'
 import * as $ from 'jquery';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
@@ -35,6 +36,9 @@ export class RegistrationPageComponent implements OnInit {
   constructor(private auth: AuthenticationService, private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
+
+    
+
     $(function () {
 
       $('#login-form-link').click(function (e) {
@@ -66,13 +70,15 @@ export class RegistrationPageComponent implements OnInit {
       this.userNameErrorLogin = false;
     }
 
-    if (this.passwordLogin.length == 0) {
-      this.pwLoginErrorText = 'Password minimum length is 1.';
+    if (this.passwordLogin.length < 4) {
+      this.pwLoginErrorText = 'Password minimum length is 4.';
       this.pwErrorLogin = true;
       return;
     } else {
       this.pwErrorLogin = false;
     }
+
+    //this.passwordLogin = passwordhasher.generate(this.passwordLogin);
 
     this.http.post<any>('http://localhost:3000/signin', {
       username: this.usernameLogin,
@@ -104,8 +110,8 @@ export class RegistrationPageComponent implements OnInit {
       this.userNameErrorRegistration = false;
     }
 
-    if (this.passwordRegistration.length == 0) {
-      this.registrationPasswordErrorText = 'Password minimum length is 1.';
+    if (this.passwordRegistration.length < 4) {
+      this.registrationPasswordErrorText = 'Password minimum length is 4.';
       this.pwErrorRegistration = true;
       return;
     } else {
@@ -119,6 +125,8 @@ export class RegistrationPageComponent implements OnInit {
     } else {
       this.pwErrorRegistration = false;
     }
+
+    //this.passwordRegistration = passwordhasher.generate(this.passwordRegistration);
 
     this.http.post<any>('http://localhost:3000/register', {
       username: this.usernameRegistration,

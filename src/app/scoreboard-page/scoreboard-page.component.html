@@ -8,7 +8,7 @@
           <div class="card mt-3" >
             <div class="card-body ">
                 <ol>
-                    <li *ngFor="let score of scoreList"><span><b>Points: </b></span>{{score}}</li>
+                    <li *ngFor="let score of this.scoreService.scoreMessages"><span><b>Points: </b></span>{{score}}</li>
                 </ol>
             </div>
           </div>

@@ -8,12 +8,11 @@ import { Router } from '@angular/router';
 })
 export class ScoreBoardService {
 
-  private scores: number[] = [];
-  private messages: string[] = [];
+  scores: number[] = [];
+  messages: string[] = [];
+  scoreMessages: string[] = [];
 
   constructor(private auth: AuthenticationService, private http: HttpClient, private router: Router) {
-    // testing
-    this.scores.push(1832);
    }
 
   public add(score: number, message: string) {
@@ -25,8 +24,9 @@ export class ScoreBoardService {
       x => {
         console.log(x);
 
-        this.scores = x.body.scores;
-        this.messages = x.body.msgs;
+        this.scores = x['scores'] ;//x.body.scores;
+        this.messages = x['msgs'];// x.body.msgs;
+        this.parseScoreAndMessagesToString();
 
         this.router.navigateByUrl('/scoreboard');
       },
@@ -35,8 +35,34 @@ export class ScoreBoardService {
       });
   }
 
-  public getScores() { return this.scores };
-  public getMessages() { return this.messages };
+  public getMessages() {
+    this.http.get<any>('http://127.0.0.1:3000/scoreboard')
+    .subscribe(
+      x => {
+        console.log(x);
+
+        this.scores = x['scores'] ;//x.body.scores;
+        this.messages = x['msgs'];// x.body.msgs;
+        this.parseScoreAndMessagesToString();
+
+        this.router.navigateByUrl('/scoreboard');
+      },
+      error => {
+        console.error(error);
+      });
+  }
+
+  private parseScoreAndMessagesToString() {
+    var index = 0;
+
+    while (index !== this.scores.length) {
+      this.scoreMessages.push(this.scores[index] + ' Message: ' + this.messages[index]);
+      index++;
+    }
+  }
+
+  //public getScores() { return this.scores };
+  //public getMessages() { return this.messages };
 
   
 }

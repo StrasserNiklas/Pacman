@@ -1,5 +1,5 @@
 
-<div id="scoreDiv" tabindex="0" (keydown)="onKey($event)" >
+<div id="scoreDiv" tabindex="0"  >
     <div class="center">
         <button *ngIf="!this.gameHasStarted" (click)="this.onStartGame()" >Start game</button>
         <label class="labelStyle"><b>Lives: <span>{{this.pacman.lives}}</span></b> </label>
@@ -8,17 +8,16 @@
         <button [routerLink]="['/scoreboard']">Scoreboard</button>
     </div>
 
-
     <div id="startOverlay" class="startOverlay"></div>
     <div id="over" class="gameOverOverlay"></div>
     
-    
     <div id="gameField" >
-        
     </div>
 
-    <label>{{this.map.foodCount}}</label>
-
+    <div>
+        <label>{{this.map.foodCount}}</label>
+    </div>
+    
 
     <div class="center" *ngIf="this.isGameOver" id="submitDiv"> 
         <label class="labelStyle"><b>Enter message:</b> </label>
