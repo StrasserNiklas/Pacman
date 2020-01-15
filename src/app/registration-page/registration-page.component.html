@@ -1,10 +1,6 @@
 <!-- Doesn´t work the way it needs to without this line, if you add it globally another page breaks -->
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 
-<!-- <div  id="testGif">
-
-</div> -->
-
 <div class="container body-content">
     <div class="row">
         <div class="col-lg-6 col-md-offset-3">
@@ -20,7 +16,7 @@
                     </div>
                     <hr>
                 </div>
-                <div class="panel-body pacmanGif" >
+                <div class="panel-body pacmanGif">
                     <div class="row">
                         <div class="col-lg-12">
                             <form id="login-form" action="https://phpoll.com/login/process" method="post" role="form"
@@ -31,9 +27,6 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <!-- Had to set style here because a class wasn´t working
-                                        style="background-color: transparent; color: white;"
-                                     -->
                                     <input type="text" name="username" id="username" tabindex="1" class="form-control"
                                         placeholder="Username" [(ngModel)]="this.usernameLogin" value="">
                                 </div>
@@ -42,11 +35,8 @@
                                     <div *ngIf="this.userNameErrorLogin">{{usernameLoginErrorText}}</div>
                                 </div>
 
-                                <div class="form-group " >
-                                    <!-- Had to set style here because a class wasn´t working 
-                                        style="background-color: transparent; color: white;"
-                                    -->
-                                    <input type="password"  name="password" tabindex="2" class="form-control"
+                                <div class="form-group ">
+                                    <input type="password" name="password" tabindex="2" class="form-control"
                                         [(ngModel)]="this.passwordLogin" placeholder="Password">
                                 </div>
 
@@ -60,6 +50,16 @@
                                             <input type="submit" name="login-submit" id="login-submit" tabindex="4"
                                                 class="form-control btn btn-login" (click)="this.login()"
                                                 value="Log In">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-offset-3">
+                                            <div class="center">
+                                                <p><b>Log in or register to play Pacman.</b></p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -109,6 +109,16 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-offset-3">
+                                            <div class="center">
+                                                <p><b>Log in or register to play Pacman.</b></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -116,10 +126,6 @@
             </div>
         </div>
     </div>
-</div>
-
-<div class="center" >
-    <p><b>Log in or register to play Pacman.</b></p>
 </div>
 
 <div id="helpDiv">

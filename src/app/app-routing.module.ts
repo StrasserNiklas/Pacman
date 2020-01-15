@@ -11,8 +11,8 @@ const routes: Routes = [
   { path: 'home', component: RegistrationPageComponent },
   { path: '',   redirectTo: '/home', pathMatch: 'full' },
   { path: 'help', component: HelpPageComponent },
-  { path: 'game', component: GamePageComponent},//, canActivate: [IsLoggedInGuardServiceService, HasScoreGuardService] },
-  { path: 'scoreboard', component: ScoreboardPageComponent},//, canActivate: [HasScoreGuardService]  },
+  { path: 'game', component: GamePageComponent, canActivate: [IsLoggedInGuardServiceService, HasScoreGuardService] },
+  { path: 'scoreboard', component: ScoreboardPageComponent, canActivate: [HasScoreGuardService] },
   { path: '**', component: RegistrationPageComponent }
 ];
 

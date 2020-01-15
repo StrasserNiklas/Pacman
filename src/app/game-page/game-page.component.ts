@@ -19,7 +19,7 @@ export class GamePageComponent implements OnInit, OnDestroy {
   height: number = 28;
   public map: Map;
   preGameAudio = new Audio("assets/audio/beginning.mp3");
-  victoryAudio = new Audio("assets/audio/victory.mp3"); // oder 2
+  victoryAudio = new Audio("assets/audio/victory.mp3");
   defeatAudio = new Audio("assets/audio/defeat.mp3");
 
   @ViewChild('startOverlay', { static: false }) startOverlay: ElementRef;
@@ -180,7 +180,7 @@ export class GamePageComponent implements OnInit, OnDestroy {
     if (width < 448) {
       var top = (field.clientHeight / 2) + (controlHeight) - (controlHeight / 8);
     } else {
-      var top = (field.clientHeight / 2); //- (messageOverlay.clientHeight / 2);
+      var top = (field.clientHeight / 2);
     }
 
     if (userWon) {

@@ -5,7 +5,6 @@ import { Pacman } from './pacman';
 import { Ghost } from './ghost';
 
 export class Map {
-
   foodCount: number = 0;
   public grid;
   public foodGrid;
@@ -142,7 +141,7 @@ export class Map {
   }
 
   public startGame() {
-    this.intervallId = setInterval(this.moveElements.bind(this), 150);
+    this.intervallId = setInterval(this.moveElements.bind(this), 180);
   }
 
   private moveElements() {
@@ -186,7 +185,6 @@ export class Map {
   }
 
   checkHit(ghostHit: boolean) {
-
     if (ghostHit) {
       return;
     }
@@ -207,12 +205,10 @@ export class Map {
             if (this.pacman.currentX === ghost.currentX
               && this.pacman.currentY === ghost.currentY
               && ghost.collisionReset === 0) {
-              ghost.deathReset = 15;
+              ghost.deathReset = 20;
               this.mapScore = this.mapScore + 100;
-              //this.ghostHit = true;
               ghost.isDead = true;
               this.deathAudio.play();
-              //this.updateLives();
             }
           }
         }
@@ -226,7 +222,6 @@ export class Map {
     if (foodValue === 2) {
       if (!this.foodWasHit) {
         this.foodWasHit = true;
-        //this.foodAudio.loop = true;
         this.foodAudio.play();
       }
 
@@ -244,14 +239,12 @@ export class Map {
         this.foodWasHit = false;
       }
     }
-
-    //this.grid[this.pacman.currentY][this.pacman.currentX] = 0; //TODO MAybe need this
   }
 
   decreaseFoodCount() {
     this.foodCount--;
 
-    if (this.foodCount === 0) { //TODO muss 0 sein
+    if (this.foodCount === 0) { 
       this.foodAudio.loop = false;
       this.foodAudio.pause();
       this.foodWasHit = false;
@@ -455,10 +448,8 @@ export class Map {
           break;
         }
       }
-
-      //div.style.backgroundImage = "url('assets/images/ghosts/yellowGhostRight.png')"; // yellowGhostRight
     } else {
-      div.style.backgroundImage = "url('assets/images/ghosts/blueGhostRight.png')"; // blueGhostRight
+      div.style.backgroundImage = "url('assets/images/ghosts/blueGhostRight.png')";
     }
 
     div.style.backgroundRepeat = 'no-repeat';
@@ -498,13 +489,10 @@ export class Map {
           break;
         }
       }
-
-      //div.style.backgroundImage = "url('assets/images/ghosts/yellowGhostRight.png')"; // yellowGhostRight
     } else {
       div.style.backgroundImage = "url('assets/images/ghosts/redGhostRight.png')";
     }
 
-    //div.style.backgroundImage = "url('assets/images/ghosts/redGhostRight.png')";
     div.style.backgroundRepeat = 'no-repeat';
     div.style.backgroundSize = 'contain';
     div.style.width = '100%';
@@ -519,7 +507,7 @@ export class Map {
     } else if (this.greenGhost != undefined && this.greenGhost.isDead) {
       div.style.backgroundImage = "url('assets/images/ghosts/deadGhost.png')";
 
-    }  else if (this.yellowGhost != undefined) {
+    } else if (this.yellowGhost != undefined) {
 
       switch (this.greenGhost.direction) {
         case Direction.Left: {
@@ -542,8 +530,6 @@ export class Map {
           break;
         }
       }
-
-      //div.style.backgroundImage = "url('assets/images/ghosts/yellowGhostRight.png')"; // yellowGhostRight
     } else {
       div.style.backgroundImage = "url('assets/images/ghosts/greenGhostRight.png')"; // greenGhostRight
     }
@@ -562,7 +548,7 @@ export class Map {
     } else if (this.yellowGhost != undefined && this.yellowGhost.isDead) {
       div.style.backgroundImage = "url('assets/images/ghosts/deadGhost.png')";
 
-    }  else if (this.yellowGhost != undefined) {
+    } else if (this.yellowGhost != undefined) {
 
       switch (this.yellowGhost.direction) {
         case Direction.Left: {
@@ -585,14 +571,10 @@ export class Map {
           break;
         }
       }
-
-      //div.style.backgroundImage = "url('assets/images/ghosts/yellowGhostRight.png')"; // yellowGhostRight
     } else {
       div.style.backgroundImage = "url('assets/images/ghosts/yellowGhostRight.png')";
     }
 
-
-    //div.style.backgroundImage = "url('assets/images/ghosts/yellowGhostRight.png')";
     div.style.backgroundRepeat = 'no-repeat';
     div.style.backgroundSize = 'contain';
     div.style.width = '100%';
@@ -623,46 +605,3 @@ export class Map {
   //       break;
   //   }
   // }
-
-  // setPrevious(value: number, i, j) {
-  //   switch (value) {
-  //     case 0:
-  //       this.setAsBackground(i, j);
-  //       break;
-
-  //     case 2:
-  //       this.setAsFood(i, j);
-  //       break;
-
-  //     case 5:
-  //       this.setAsPowerup(i, j);
-  //       break;
-
-  //     case 6:
-  //       this.setAsBackground(i, j);
-  //       break;
-
-  //     case 7:
-  //       this.setAsBackground(i, j);
-  //       break;
-
-  //     case 8:
-  //       this.setAsBackground(i, j);
-  //       break;
-
-  //     case 9:
-  //       this.setAsBackground(i, j);
-  //       break;
-
-  //     case 10:
-  //       this.setAsPortal(i, j);
-  //       break;
-  //   }
-
-  // }
-
-    // initializeGrid() {
-  //     for (var i = 0; i < this.height; i++) {
-  //       this.grid[i] = new Array(this.width);
-  //     }
-  //   }

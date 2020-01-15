@@ -32,13 +32,6 @@ export class Pacman {
 
                         if (this.map.grid[randomY][randomX] === 2) {
                             this.map.grid[this.currentY][this.currentX] = 0;
-                            //this.map.foodCount--;
-
-                            // if (this.map.foodCount === 0) {
-                            //     //this.stopMoving();
-                            //     this.map.gamePage.userHasWon = true;
-                            //     this.map.gamePage.setGameOver();
-                            // }
                             this.currentX = randomX;
                             this.currentY = randomY;
                             break;
