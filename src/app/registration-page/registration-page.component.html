@@ -1,11 +1,15 @@
 <!-- Doesn´t work the way it needs to without this line, if you add it globally another page breaks -->
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 
+<!-- <div  id="testGif">
+
+</div> -->
+
 <div class="container body-content">
     <div class="row">
         <div class="col-lg-6 col-md-offset-3">
             <div class="panel panel-login">
-                <div class="panel-heading">
+                <div class="panel-heading pacmanGifSmall">
                     <div class="row">
                         <div class="col-xs-6">
                             <a href="#" class="active" id="login-form-link">Login</a>
@@ -16,7 +20,7 @@
                     </div>
                     <hr>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body pacmanGif" >
                     <div class="row">
                         <div class="col-lg-12">
                             <form id="login-form" action="https://phpoll.com/login/process" method="post" role="form"
@@ -27,6 +31,9 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <!-- Had to set style here because a class wasn´t working
+                                        style="background-color: transparent; color: white;"
+                                     -->
                                     <input type="text" name="username" id="username" tabindex="1" class="form-control"
                                         placeholder="Username" [(ngModel)]="this.usernameLogin" value="">
                                 </div>
@@ -35,9 +42,12 @@
                                     <div *ngIf="this.userNameErrorLogin">{{usernameLoginErrorText}}</div>
                                 </div>
 
-                                <div class="form-group">
-                                    <input type="password" name="password" tabindex="2"
-                                        class="form-control" [(ngModel)]="this.passwordLogin" placeholder="Password">
+                                <div class="form-group " >
+                                    <!-- Had to set style here because a class wasn´t working 
+                                        style="background-color: transparent; color: white;"
+                                    -->
+                                    <input type="password"  name="password" tabindex="2" class="form-control"
+                                        [(ngModel)]="this.passwordLogin" placeholder="Password">
                                 </div>
 
                                 <div *ngIf="this.pwErrorLogin" class="invalid">
@@ -48,7 +58,8 @@
                                     <div class="row">
                                         <div class="col-md-6 col-sm-offset-3">
                                             <input type="submit" name="login-submit" id="login-submit" tabindex="4"
-                                                class="form-control btn btn-login" (click)="this.login()" value="Log In">
+                                                class="form-control btn btn-login" (click)="this.login()"
+                                                value="Log In">
                                         </div>
                                     </div>
                                 </div>
@@ -56,13 +67,13 @@
                             </form>
                             <form id="register-form" action="https://phpoll.com/register/process" method="post"
                                 role="form" style="display: none;">
-                               
+
                                 <div *ngIf="this.serverErrorOccuredRegistration" class="invalid">
                                     <div *ngIf="this.serverErrorOccuredRegistration">{{serverError}}</div>
                                 </div>
-                               
+
                                 <div class="form-group">
-                                    <input type="text" name="username"  tabindex="1" class="form-control"
+                                    <input type="text" name="username" tabindex="1" class="form-control"
                                         placeholder="Username" [(ngModel)]="this.usernameRegistration" value="">
                                 </div>
 
@@ -71,8 +82,8 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <input type="password" name="password"  tabindex="2"
-                                        class="form-control" [(ngModel)]="this.passwordRegistration" placeholder="Password">
+                                    <input type="password" name="password" tabindex="2" class="form-control"
+                                        [(ngModel)]="this.passwordRegistration" placeholder="Password">
                                 </div>
 
                                 <div *ngIf="this.pwErrorRegistration" class="invalid">
@@ -81,8 +92,8 @@
 
 
                                 <div class="form-group">
-                                    <input type="password" name="confirm-password"  tabindex="2"
-                                        class="form-control" [(ngModel)]="this.confirmPasswordRegistration" placeholder="Confirm Password">
+                                    <input type="password" name="confirm-password" tabindex="2" class="form-control"
+                                        [(ngModel)]="this.confirmPasswordRegistration" placeholder="Confirm Password">
                                 </div>
 
                                 <div *ngIf="this.pwErrorRegistration" class="invalid">
@@ -93,7 +104,8 @@
                                     <div class="row">
                                         <div class="col-md-8 col-sm-offset-2">
                                             <input type="submit" name="register-submit" (click)="this.register()"
-                                                tabindex="4" class="form-control btn btn-register" value="Register and log in">
+                                                tabindex="4" class="form-control btn btn-register"
+                                                value="Register and log in">
                                         </div>
                                     </div>
                                 </div>
@@ -106,3 +118,10 @@
     </div>
 </div>
 
+<div class="center" >
+    <p><b>Log in or register to play Pacman.</b></p>
+</div>
+
+<div id="helpDiv">
+    <button id="helpButton" [routerLink]="['/help']"><label>Help</label></button>
+</div>

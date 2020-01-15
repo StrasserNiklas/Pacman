@@ -1,0 +1,86 @@
+<div class="container">
+    <div class="container-fluid ">
+      <div class="card mt-3">
+        <div class="card-body center">
+          <h1>Help</h1>
+        </div>
+      </div>
+      <div class="text-center">
+        <button id="returnButton" [routerLink]="['/game']" class="btn btn-primary buttonStyle">Return to game</button>
+        <button id="returnButton" [routerLink]="['/home']" class="btn btn-primary buttonStyle">Home</button>
+      </div>
+      <div class="card mt-3">
+        <div class="card-body ">
+          <p>Pac-Man is a maze arcade game developed and released by Namco in 1980.
+            The original Japanese title of Puck Man was changed to Pac-Man for international releases as a preventative
+            measure against defacement of the arcade machines.
+            The player controls Pac-Man, who must eat all the dots inside an enclosed maze while avoiding four colored
+            ghosts.
+            Eating large flashing dots called power pellets causes the ghosts to turn blue,
+            allowing Pac-Man to eat them for bonus points. It is the first game to run on the Namco Pac-Man arcade
+            board. </p>
+
+          <div>
+            <h4>Instructions:</h4>
+            <p>The game ends when you eat all the food items or you have 0 lives left.</p>
+          </div>
+
+          <div>
+            <table rules="rows"  >
+              <tr>
+                <th>Element</th>
+                <th>Description</th>
+              </tr>
+              <tr>
+                <tr>
+                  <td> <img src="assets/images/pacman/pacmanRight.png" alt="pacman" height="25" width="25"> </td>
+                  <td><p>You will control this Pacman with the arrow keys.</p></td>
+                </tr>
+                <tr>
+                <td>
+                  <div>
+                    <img src="assets/images/ghosts/redGhostRight.png" alt="red ghost" height="25" width="25">
+                    <img src="assets/images/ghosts/blueGhostUp.png" alt="blue ghost" height="25" width="25">
+                  </div>
+
+                </td>
+                <td><p>You'll lose a life and 20 points if you hit a ghost.</p></td>
+              </tr>
+              <tr>
+
+                <td>
+                  <div>
+                    <img src="assets/images/ghosts/greenGhostDown.png" alt="green ghost" height="25" width="25">
+                    <img src="assets/images/ghosts/yellowGhostLeft.png" alt="yellow ghost" height="25" width="25">
+                  </div>
+
+                </td>
+                <td><p>The ghosts randomly decide their direction when they encounter an intersection/junction.</p></td>
+              </tr>
+              <tr>
+                <td> <img src="assets/images/food.png" id="foodImg" alt="pacman food" height="25" width="25"> </td>
+                <td><p>If you eat the food item, your points increase by 5.</p></td>
+              </tr>
+              <tr>
+                <td> <img src="assets/images/powerup.png" alt="power up" height="35" width="35"> </td>
+                <td><p>If you eat the power up, the ghosts will get scared and you can eat them to gain 100 points for a short period of time.</p></td>
+              </tr>
+              <tr>
+                <td> <img src="assets/images/ghosts/scaredGhost.png" alt="scared ghost" height="35" width="35"> </td>
+                <td><p>Scared ghost. A ghost will get scared if he hits the Pacman or a power up is eaten by the Pacman.</p></td>
+              </tr>
+              <tr>
+                <td> <img src="assets/images/ghosts/deadGhost.png" alt="dead ghost" height="35" width="35"> </td>
+                <td><p>If you eat a ghost will it is scared because of the powerup, it will be dead for a short time and unable to be eaten.</p></td>
+              </tr>
+              <tr>
+                <td> <img src="assets/images/portal.png" alt="portal" height="35" width="35"> </td>
+                <td><p>If you move into the portal, you will be teleported to a random location with food. Ghosts will teleport to the second portal.</p></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>

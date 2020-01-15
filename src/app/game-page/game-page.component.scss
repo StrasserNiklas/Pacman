@@ -11,6 +11,21 @@
   box-sizing: border-box;
 }
 
+#gameOverMessage {
+  font-size: 10vw; 
+  font-weight: bold;
+  position: absolute;
+  z-index: 600;
+}
+
+.gameWonOverlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 500;
+  background: rgba(0, 248, 95, 0.7);
+  overflow:hidden;
+}
 
 .gameOverOverlay {
   position: absolute;
@@ -63,31 +78,6 @@ button {
 }
 
 button:hover {
-  background: rgb(56, 42, 255); /* Green */
+  background: rgb(56, 42, 255);
   color: white;
 }
-
-// .redGhostRight {
-//     background-image: url('../../assets/images/redGhostRight.png');
-//     background-repeat: no-repeat;
-//     background-size:  contain;
-//   }
-
-//   .yellowGhostRight {
-//     background-image: url('../../assets/images/yellowGhostRight.png');
-//     background-repeat: no-repeat;
-//     background-size:  contain;
-//   }
-
-//   .blueGhostRight {
-//     background-image: url('../../assets/images/blueGhostRight.png');
-//     background-repeat: no-repeat;
-//     background-size:  contain;
-//   }
-
-//   .greenGhostRight {
-//     background-image: url('../../assets/images/greenGhostRight.png');
-//     background-repeat: no-repeat;
-//     background-size:  contain;
-//   }
-

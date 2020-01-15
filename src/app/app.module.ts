@@ -9,13 +9,15 @@ import { RegistrationPageComponent } from './registration-page/registration-page
 import { GamePageComponent } from './game-page/game-page.component';
 import { ScoreboardPageComponent } from './scoreboard-page/scoreboard-page.component';
 import { AuthenticationInterceptorService } from './services/authentication-interceptor.service';
+import { HelpPageComponent } from './help-page/help-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegistrationPageComponent,
     GamePageComponent,
-    ScoreboardPageComponent
+    ScoreboardPageComponent,
+    HelpPageComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-//import * as passwordhasher from 'password-hash'
 import * as $ from 'jquery';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
