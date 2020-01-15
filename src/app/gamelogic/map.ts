@@ -209,10 +209,10 @@ export class Map {
               && ghost.collisionReset === 0) {
               ghost.deathReset = 15;
               this.mapScore = this.mapScore + 100;
-              this.ghostHit = true;
+              //this.ghostHit = true;
               ghost.isDead = true;
               this.deathAudio.play();
-              this.updateLives();
+              //this.updateLives();
             }
           }
         }
@@ -417,7 +417,7 @@ export class Map {
 
   setAsDeadGhost(i, j) {
     var div = this.document.getElementById(i + '_' + j);
-    div.style.backgroundImage = "url('assets/images/ghosts/deadGhost.png')"; //../../assets
+    div.style.backgroundImage = "url('assets/images/ghosts/deadGhost.png')";
     div.style.backgroundRepeat = 'no-repeat';
     div.style.backgroundSize = 'contain';
     div.style.width = '100%';
