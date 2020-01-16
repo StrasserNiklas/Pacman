@@ -8,13 +8,13 @@
           <div class="card mt-3" >
             <div class="card-body ">
                 <ol>
-                    <li *ngFor="let score of this.scoreService.scoreMessages"><span><b>Points: </b></span>{{score}}</li>
+                    <li *ngFor="let score of this.scoreService.scoreMessages | slice:0:10; let i=index "><span><b>Points: </b></span>{{score}}</li>
                 </ol>
             </div>
           </div>
 
           <div class="text-center"> 
-            <button id="returnButton" [routerLink]="['/game']" class="btn btn-primary buttonStyle">Return to game</button>
+            <button id="returnButton" [routerLink]="['/game']" class="btn btn-primary buttonStyle">New game</button>
           </div>
     </div>
 </div>

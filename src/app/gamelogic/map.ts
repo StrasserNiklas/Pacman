@@ -16,8 +16,9 @@ export class Map {
   public foodWasHit: boolean = false;
   public foodAudio = new Audio("assets/audio/food.mp3");
   public deathAudio = new Audio("assets/audio/death.mp3");
+
+  public chaseAudio = new Audio("assets/audio/chaseMusic.mp3");
   private ghostHit: boolean = false;
-  public intervallId;
   public pacman: Pacman;
   public ghosts: Ghost[] = [];
   public redGhost: Ghost;
@@ -26,11 +27,7 @@ export class Map {
   public greenGhost: Ghost;
   public eatGhostsMode: boolean = false;
   public eatGhostsModeTimer: number = 0;
-
   public gameOver: boolean = false;
-
-  public gameSpeed: number = 200;
-
   public timer;
 
   constructor(document: Document, gamePage: GamePageComponent) {
@@ -49,9 +46,10 @@ export class Map {
     // 9 = yellow
     // 10 = teleportation
     // 11 = door
+    // 12 = empty space
     this.grid = [
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-      [1, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 7, 2, 2, 2, 2, 2, 10, 1],
+      [1, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 10, 1],
       [1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1],
       [1, 2, 1, 0, 0, 1, 2, 2, 2, 2, 2, 2, 1, 1, 2, 1, 2, 1, 2, 1, 0, 0, 1, 2, 1, 0, 0, 0, 1, 2, 1],
       [1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1],
@@ -63,12 +61,12 @@ export class Map {
       [0, 0, 0, 0, 1, 2, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 2, 1, 0, 0, 0, 0],
       [0, 0, 0, 0, 1, 2, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 2, 1, 0, 0, 0, 0],
       [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 0, 1, 1, 1, 3, 3, 3, 1, 1, 1, 0, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
-      [11, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 11],
-      [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
-      [0, 0, 0, 0, 1, 2, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 2, 1, 0, 0, 0, 0],
+      [11, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 1, 12, 12, 7, 12, 6, 12, 12, 1, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 11],
+      [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 0, 1, 12, 12, 8, 12, 9, 12, 12, 1, 0, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
+      [0, 0, 0, 0, 1, 2, 1, 0, 0, 1, 0, 1, 12, 12, 12, 12, 12, 12, 12, 1, 0, 1, 0, 0, 1, 2, 1, 0, 0, 0, 0],
       [0, 0, 0, 0, 1, 2, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 2, 1, 0, 0, 0, 0],
       [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
-      [1, 6, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 8, 2, 2, 2, 2, 1],
+      [1, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1],
       [1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1],
       [1, 2, 2, 2, 1, 0, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 0, 0, 1, 2, 1, 2, 2, 2, 1],
       [1, 1, 1, 2, 1, 0, 1, 2, 2, 2, 1, 0, 0, 1, 2, 1, 2, 1, 0, 1, 2, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1],
@@ -76,7 +74,7 @@ export class Map {
       [1, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 0, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1],
       [1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 1, 2, 1, 0, 0, 0, 1, 2, 1, 0, 0, 0, 0, 1, 2, 2, 2, 1],
       [1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1],
-      [1, 10, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+      [1, 10, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ];
 
@@ -124,21 +122,28 @@ export class Map {
     this.createMap(true);
 
     this.redGhost = new Ghost(this, GhostType.Red, 6);
-    this.redGhost.currentX = 1;
-    this.redGhost.currentY = 18;
-    this.redGhost.direction = Direction.Right;
+    this.redGhost.currentX = 14;//1;
+    this.redGhost.currentY = 13;//18;
+    this.redGhost.ghostOutOfCell = 3;
+    this.redGhost.direction = Direction.Up;
 
     this.blueGhost = new Ghost(this, GhostType.Blue, 7);
-    this.blueGhost.currentX = 23;
-    this.blueGhost.currentY = 1;
+    this.blueGhost.currentX = 16;//23;
+    this.blueGhost.currentY = 13;//1;
+    this.blueGhost.ghostOutOfCell = 3;
+    this.blueGhost.direction = Direction.Up;
 
     this.greenGhost = new Ghost(this, GhostType.Green, 8);
-    this.greenGhost.currentX = 25;
-    this.greenGhost.currentY = 18;
+    this.greenGhost.currentX = 14;//25;
+    this.greenGhost.currentY = 14;//18;
+    this.greenGhost.ghostOutOfCell = 4;
+    this.greenGhost.direction = Direction.Up;
 
     this.yellowGhost = new Ghost(this, GhostType.Yellow, 9);
-    this.yellowGhost.currentX = 14;
-    this.yellowGhost.currentY = 26;
+    this.yellowGhost.currentX = 16;//14;
+    this.yellowGhost.currentY = 14;//26;
+    this.yellowGhost.ghostOutOfCell = 4;
+    this.yellowGhost.direction = Direction.Up;
 
     this.ghosts.push(this.redGhost);
     this.ghosts.push(this.blueGhost);
@@ -147,8 +152,6 @@ export class Map {
   }
 
   public startGame() {
-    //this.intervallId = setInterval(this.moveElements.bind(this), this.gameSpeed);
-    //this.moveElements();
     this.timer = setInterval(() => {
       if (this.gameOver) {
         clearInterval(this.timer);
@@ -160,6 +163,8 @@ export class Map {
 
       if (this.eatGhostsModeTimer === 0) {
         this.eatGhostsMode = false;
+        this.chaseAudio.pause();
+        this.chaseAudio.currentTime = 0;
       } else {
         this.eatGhostsModeTimer--;
       }
@@ -170,7 +175,6 @@ export class Map {
       this.checkFoodHit();
 
       if (this.foodCount === 0) {
-        //clearInterval(this.intervallId);
         clearInterval(this.timer);
         this.timer = undefined;
         this.gameOver = true;
@@ -194,53 +198,6 @@ export class Map {
 
       this.checkHit(this.ghostHit);
     }, 180);
-  }
-
-  private moveElements() {
-    var x = this.gameSpeed;
-
-    this.ghostHit = false;
-
-    if (this.eatGhostsModeTimer === 0) {
-      this.eatGhostsMode = false;
-    } else {
-      this.eatGhostsModeTimer--;
-    }
-
-    this.pacman.move();
-    this.createMap(false);
-    this.checkHit(this.ghostHit);
-    this.checkFoodHit();
-
-    if (this.foodCount === 0) {
-      //return;
-      clearInterval(this.timer);
-      this.timer = undefined;
-      //clearInterval(this.intervallId);
-      this.gamePage.setGameOver();
-    }
-
-    for (let ghost of this.ghosts) {
-      ghost.move();
-
-      if (ghost.collisionReset > 0) {
-        ghost.collisionReset--;
-      }
-
-      if (ghost.deathReset === 0) {
-        ghost.isDead = false;
-      } else {
-        ghost.deathReset--;
-      }
-    }
-
-    this.checkHit(this.ghostHit);
-
-    //setTimeout(this.moveElements.bind(this), 180);
-  }
-
-  public stopGame() {
-    clearInterval(this.intervallId);
   }
 
   checkHit(ghostHit: boolean) {
@@ -279,7 +236,7 @@ export class Map {
     var foodValue = this.foodGrid[this.pacman.currentY][this.pacman.currentX];
 
     if (foodValue === 2) {
-      if (!this.foodWasHit) {
+      if (!this.foodWasHit && !this.eatGhostsMode) {
         this.foodWasHit = true;
         this.foodAudio.play();
       }
@@ -289,7 +246,16 @@ export class Map {
       this.decreaseFoodCount();
     } else if (foodValue === 5) {
       this.eatGhostsMode = true;
-      this.eatGhostsModeTimer = 15;
+      this.eatGhostsModeTimer = 30;
+
+      this.chaseAudio.play();
+      this.foodAudio.loop = false;
+      this.foodAudio.pause();
+
+      for (let ghost of this.ghosts) {
+        ghost.collisionReset = 0;
+      }
+
       this.foodGrid[this.pacman.currentY][this.pacman.currentX] = 0;
     } else {
       if (this.foodWasHit) {
@@ -324,6 +290,7 @@ export class Map {
       this.foodAudio.loop = false;
       this.foodAudio.pause();
       this.foodWasHit = false;
+      this.gameOver = true;
       clearInterval(this.timer);
       this.timer = undefined;
       this.gameOver = true;
@@ -463,6 +430,7 @@ export class Map {
 
   setAsGate(i, j) {
     var div = this.document.getElementById(i + '_' + j);
+    div.style.backgroundImage = '';
     div.style.backgroundColor = '#9e0000';
   }
 
@@ -487,7 +455,9 @@ export class Map {
   setAsBlueGhost(i, j) {
     var div = this.document.getElementById(i + '_' + j);
 
-    if (this.blueGhost != undefined && this.blueGhost.collisionReset > 0 || this.eatGhostsMode) {
+    if (this.blueGhost != undefined && this.blueGhost.collisionReset > 0 ) {
+      div.style.backgroundImage = "url('assets/images/ghosts/scaredGhost.png')";
+    } else if (this.eatGhostsMode && !this.blueGhost.isDead) {
       div.style.backgroundImage = "url('assets/images/ghosts/scaredGhost.png')";
     } else if (this.blueGhost != undefined && this.blueGhost.isDead) {
       div.style.backgroundImage = "url('assets/images/ghosts/deadGhost.png')";
@@ -528,7 +498,9 @@ export class Map {
   setAsRedGhost(i, j) {
     var div = this.document.getElementById(i + '_' + j);
 
-    if (this.redGhost != undefined && this.redGhost.collisionReset > 0 || this.eatGhostsMode) {
+    if (this.redGhost != undefined && this.redGhost.collisionReset > 0) {
+      div.style.backgroundImage = "url('assets/images/ghosts/scaredGhost.png')";
+    } else if (this.eatGhostsMode && !this.redGhost.isDead) {
       div.style.backgroundImage = "url('assets/images/ghosts/scaredGhost.png')";
     } else if (this.redGhost != undefined && this.redGhost.isDead) {
       div.style.backgroundImage = "url('assets/images/ghosts/deadGhost.png')";
@@ -569,11 +541,12 @@ export class Map {
   setAsGreenGhost(i, j) {
     var div = this.document.getElementById(i + '_' + j);
 
-    if (this.greenGhost != undefined && this.greenGhost.collisionReset > 0 || this.eatGhostsMode) {
+    if (this.greenGhost != undefined && this.greenGhost.collisionReset > 0) {
+      div.style.backgroundImage = "url('assets/images/ghosts/scaredGhost.png')";
+    } else if (this.eatGhostsMode && !this.greenGhost.isDead) {
       div.style.backgroundImage = "url('assets/images/ghosts/scaredGhost.png')";
     } else if (this.greenGhost != undefined && this.greenGhost.isDead) {
       div.style.backgroundImage = "url('assets/images/ghosts/deadGhost.png')";
-
     } else if (this.yellowGhost != undefined) {
 
       switch (this.greenGhost.direction) {
@@ -609,14 +582,13 @@ export class Map {
 
   setAsYellowGhost(i, j) {
     var div = this.document.getElementById(i + '_' + j);
-
-    if (this.yellowGhost != undefined && this.yellowGhost.collisionReset > 0 || this.eatGhostsMode) {
+    if (this.yellowGhost != undefined && this.yellowGhost.collisionReset > 0) {
+      div.style.backgroundImage = "url('assets/images/ghosts/scaredGhost.png')";
+    } else if (this.eatGhostsMode && !this.yellowGhost.isDead) {
       div.style.backgroundImage = "url('assets/images/ghosts/scaredGhost.png')";
     } else if (this.yellowGhost != undefined && this.yellowGhost.isDead) {
       div.style.backgroundImage = "url('assets/images/ghosts/deadGhost.png')";
-
     } else if (this.yellowGhost != undefined) {
-
       switch (this.yellowGhost.direction) {
         case Direction.Left: {
           div.style.backgroundImage = "url('assets/images/ghosts/yellowGhostLeft.png')";
@@ -649,6 +621,48 @@ export class Map {
   }
 }
 
+//  private moveElements() {
+//     this.ghostHit = false;
+
+//     if (this.eatGhostsModeTimer === 0) {
+//       this.eatGhostsMode = false;
+//     } else {
+//       this.eatGhostsModeTimer--;
+//     }
+
+//     this.pacman.move();
+//     this.createMap(false);
+//     this.checkHit(this.ghostHit);
+//     this.checkFoodHit();
+
+//     if (this.foodCount === 0) {
+//       //return;
+//       this.gameOver = true;
+//       clearInterval(this.timer);
+//       this.timer = undefined;
+//       //clearInterval(this.intervallId);
+//       this.gamePage.setGameOver();
+//     }
+
+//     for (let ghost of this.ghosts) {
+//       ghost.move();
+
+//       if (ghost.collisionReset > 0) {
+//         ghost.collisionReset--;
+//       }
+
+//       if (ghost.deathReset === 0) {
+//         ghost.isDead = false;
+//       } else {
+//         ghost.deathReset--;
+//       }
+//     }
+
+//     this.checkHit(this.ghostHit);
+
+//     //setTimeout(this.moveElements.bind(this), 180);
+//   }
+
 // setAsGhost(type: GhostType, i, j) {
   //   switch (type) {
   //     case GhostType.Blue:
@@ -672,3 +686,34 @@ export class Map {
   //       break;
   //   }
   // }
+
+  // this.grid = [
+  //   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  //   [1, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 7, 2, 2, 2, 2, 2, 10, 1],
+  //   [1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1],
+  //   [1, 2, 1, 0, 0, 1, 2, 2, 2, 2, 2, 2, 1, 1, 2, 1, 2, 1, 2, 1, 0, 0, 1, 2, 1, 0, 0, 0, 1, 2, 1],
+  //   [1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1],
+  //   [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+  //   [1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
+  //   [1, 2, 2, 2, 2, 2, 2, 1, 0, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 0, 0, 1, 2, 1, 0, 0, 0, 0],
+  //   [1, 1, 1, 1, 1, 2, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 2, 1, 0, 0, 0, 0],
+  //   [0, 0, 0, 0, 1, 2, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0, 0, 0, 0],
+  //   [0, 0, 0, 0, 1, 2, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 2, 1, 0, 0, 0, 0],
+  //   [0, 0, 0, 0, 1, 2, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 2, 1, 0, 0, 0, 0],
+  //   [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 0, 1, 1, 1, 3, 3, 3, 1, 1, 1, 0, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
+  //   [11, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 11],
+  //   [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
+  //   [0, 0, 0, 0, 1, 2, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 2, 1, 0, 0, 0, 0],
+  //   [0, 0, 0, 0, 1, 2, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 2, 1, 0, 0, 0, 0],
+  //   [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
+  //   [1, 6, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 8, 2, 2, 2, 2, 1],
+  //   [1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1],
+  //   [1, 2, 2, 2, 1, 0, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 0, 0, 1, 2, 1, 2, 2, 2, 1],
+  //   [1, 1, 1, 2, 1, 0, 1, 2, 2, 2, 1, 0, 0, 1, 2, 1, 2, 1, 0, 1, 2, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1],
+  //   [0, 0, 1, 2, 1, 0, 1, 2, 1, 2, 1, 0, 0, 1, 2, 5, 2, 1, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0],
+  //   [1, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 0, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1],
+  //   [1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 1, 2, 1, 0, 0, 0, 1, 2, 1, 0, 0, 0, 0, 1, 2, 2, 2, 1],
+  //   [1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1],
+  //   [1, 10, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+  //   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+  // ];

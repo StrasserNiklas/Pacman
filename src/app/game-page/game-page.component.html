@@ -1,29 +1,40 @@
-
 <div id="scoreDiv">
     <div class="center" id="controlsDiv">
-        <button *ngIf="!this.gameHasStarted" (click)="this.onStartGame()" >Start game</button>
+        <button class="buttons" *ngIf="!this.gameHasStarted" (click)="this.onStartGame()">Start game</button>
         <label class="labelStyle"><b>Lives: <span>{{this.map.pacman.lives}}</span></b> </label>
         <label class="labelStyle"><b>Score: <span>{{this.map.mapScore}}</span></b> </label>
         <label class="labelStyle"><b>Highscore: <span>{{scoreService.scores[0]}}</span></b> </label>
-        <button [routerLink]="['/scoreboard']">Scoreboard</button>
-        <button [routerLink]="['/help']">Help</button>
+        <button class="buttons" [routerLink]="['/scoreboard']">Scoreboard</button>
+        <button class="buttons" [routerLink]="['/help']">Help</button>
+        <button class="buttons" (click)="this.toggleMobileControls()">Toggle mobile controls</button>
     </div>
-
     <label id="gameOverMessage"><b></b></label>
     <div id="startOverlay" class="startOverlay"></div>
     <div id="wonOverlay" class="gameWonOverlay"></div>
     <div id="over" class="gameOverOverlay"></div>
-    
-    <div id="gameField" >
-    </div>
-<!-- 
-    <div>
-        <label style="margin-left: 10px;"><b>{{this.map.foodCount}}</b></label>
-    </div> -->
 
-    <div class="center" *ngIf="this.isGameOver" id="submitDiv"> 
+    <div id="gameField">
+    </div>
+    <div class="center" *ngIf="this.isGameOver" id="submitDiv">
         <label class="labelStyle"><b>Enter scoreboard message:</b> </label>
         <input [(ngModel)]="this.scoreMessage">
-        <button (click)="this.onSubmitScore()" >Submit score</button>
+        <button class="buttons" (click)="this.onSubmitScore()">Submit score</button>
+    </div>
+</div>
+<div id="mobileControls" class="center" *ngIf="this.mobileControlsToggled">
+    <div>
+        <button class="controlButtons" (click)="this.onKeyup({keyCode: 38})"><img src="assets/images/arrowUp.png"
+                alt="arrowUp" height="50" width="50"></button>
+    </div>
+    <div>
+        <button class="controlButtons" (click)="this.onKeyup({keyCode: 37})"><img src="assets/images/arrowLeft.png"
+                alt="arrowleft" height="50" width="50"></button>
+        <img src="assets/images/whiteImage.png" alt="whiteImage" height="40" width="40">
+        <button class="controlButtons" (click)="this.onKeyup({keyCode: 39})"><img src="assets/images/arrowRight.png"
+                alt="arrowRight" height="50" width="50"></button>
+    </div>
+    <div>
+        <button class="controlButtons" (click)="this.onKeyup({keyCode: 40})"><img src="assets/images/arrowDown.png"
+                alt="arrowDown" height="50" width="50"></button>
     </div>
 </div>

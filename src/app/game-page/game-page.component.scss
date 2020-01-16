@@ -1,3 +1,7 @@
+:host {
+  height: 100%;
+}
+
 #gameField{
     display:grid;
     background-color:#000000;
@@ -9,6 +13,25 @@
 
 * {
   box-sizing: border-box;
+}
+
+.controlButtons {
+  border: none;
+  background: none;
+}
+
+.controlButtons:active {
+    //background-color: #3e8e41;
+    //box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  
+}
+
+#mobileControls {
+  margin-top: 6px;
+  top: 100px;
+  bottom: 0;
+  width: 100%;
 }
 
 #gameOverMessage {
@@ -67,7 +90,7 @@ input {
   margin-top: 5px;
 }
 
-button {
+.buttons {
   border-radius: 5px;
   height:25px;
   border:none;
@@ -77,7 +100,7 @@ button {
   z-index: 999;
 }
 
-button:hover {
+.buttons:hover {
   background: rgb(56, 42, 255);
   color: white;
 }

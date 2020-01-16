@@ -16,16 +16,16 @@ export class ScoreBoardService {
    }
 
   public add(score: number, message: string) {
-    this.http.post<any>('http://localhost:3000/scoreboard', {
+    this.http.post<any>('/scoreboard', {
       score: score,
-      token: this.auth.token,
+      //token: this.auth.token,
       msg: message
     }).subscribe(
       x => {
         console.log(x);
 
-        this.scores = x['scores'] ;//x.body.scores;
-        this.messages = x['msgs'];// x.body.msgs;
+        this.scores = x['scores'] ;
+        this.messages = x['msgs'];
         this.parseScoreAndMessagesToString();
 
         this.router.navigateByUrl('/scoreboard');
@@ -36,7 +36,7 @@ export class ScoreBoardService {
   }
 
   public getMessages() {
-    this.http.get<any>('http://127.0.0.1:3000/scoreboard')
+    this.http.get<any>('/scoreboard')
     .subscribe(
       x => {
         console.log(x);
@@ -45,7 +45,7 @@ export class ScoreBoardService {
         this.messages = x['msgs'];// x.body.msgs;
         this.parseScoreAndMessagesToString();
 
-        this.router.navigateByUrl('/scoreboard');
+        //this.router.navigateByUrl('/scoreboard');
       },
       error => {
         console.error(error);

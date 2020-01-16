@@ -79,7 +79,7 @@ export class RegistrationPageComponent implements OnInit {
 
     //this.passwordLogin = passwordhasher.generate(this.passwordLogin);
 
-    this.http.post<any>('http://localhost:3000/signin', {
+    this.http.post<any>('/signin', {
       username: this.usernameLogin,
       password: this.passwordLogin
     }).subscribe(
@@ -127,7 +127,7 @@ export class RegistrationPageComponent implements OnInit {
 
     //this.passwordRegistration = passwordhasher.generate(this.passwordRegistration);
 
-    this.http.post<any>('http://localhost:3000/register', {
+    this.http.post<any>('/register', {
       username: this.usernameRegistration,
       password: this.passwordRegistration
     }).subscribe(

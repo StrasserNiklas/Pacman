@@ -15,20 +15,14 @@ export class Ghost {
     public collisionReset: number = 0;
     public deathReset: number = 0;
     public isDead: boolean = false;
+    public ghostOutOfCell: number = 0;
 
     constructor(map: Map, ghostType: GhostType, ghostId: number) {
         this.direction = Direction.Right;
         this.map = map;
         this.ghostType = ghostType;
         this.ghostId = ghostId;
-    }
-
-    startMoving() {
-        this.intervallId = setInterval(this.move.bind(this), 180);
-    }
-
-    stopMoving() {
-        clearInterval(this.intervallId);
+        this.previousMapValue = 0;
     }
 
     checkDetection(value: number, currentY: number, currentX: number) {
@@ -41,6 +35,10 @@ export class Ghost {
                 this.previousMapValue = value;
                 break;
 
+            case 3:
+                this.previousMapValue = value;
+                break;
+
             case 5:
                 this.previousMapValue = value;
                 break;
@@ -50,6 +48,8 @@ export class Ghost {
                     this.previousMapValue = 2;
                 } else if (this.map.foodGrid[currentY][currentX] === 5) {
                     this.previousMapValue = 5;
+                } else {
+                    this.previousMapValue = 0;
                 }
                 break;
 
@@ -58,6 +58,8 @@ export class Ghost {
                     this.previousMapValue = 2;
                 } else if (this.map.foodGrid[currentY][currentX] === 5) {
                     this.previousMapValue = 5;
+                } else {
+                    this.previousMapValue = 0;
                 }
                 break;
 
@@ -66,6 +68,8 @@ export class Ghost {
                     this.previousMapValue = 2;
                 } else if (this.map.foodGrid[currentY][currentX] === 5) {
                     this.previousMapValue = 5;
+                } else {
+                    this.previousMapValue = 0;
                 }
                 break;
 
@@ -74,6 +78,8 @@ export class Ghost {
                     this.previousMapValue = 2;
                 } else if (this.map.foodGrid[currentY][currentX] === 5) {
                     this.previousMapValue = 5;
+                } else {
+                    this.previousMapValue = 0;
                 }
                 break;
 
@@ -162,9 +168,15 @@ export class Ghost {
     move() {
         this.checkDirection();
 
+        if (this.ghostOutOfCell > 0) {
+            this.direction = Direction.Up;
+            this.ghostOutOfCell--;
+        }
+
         switch (this.direction) {
             case Direction.Left: {
                 if (this.map.grid[this.currentY][this.currentX - 1] !== 1 && this.map.grid[this.currentY][this.currentX - 1] !== 3) {
+                    
                     this.map.grid[this.currentY][this.currentX] = this.previousMapValue;
 
                     var value = this.map.grid[this.currentY][this.currentX - 1];
@@ -178,7 +190,7 @@ export class Ghost {
                         this.map.grid[this.currentY][this.currentX - 1] = this.ghostId;
                         this.currentX--;
                     }
-                } 
+                }
                 break;
             }
 
@@ -196,7 +208,7 @@ export class Ghost {
                         this.map.grid[this.currentY][this.currentX + 1] = this.ghostId;
                         this.currentX++;
                     }
-                } 
+                }
                 break;
             }
 
@@ -213,7 +225,13 @@ export class Ghost {
                         this.map.grid[this.currentY - 1][this.currentX] = this.ghostId;
                         this.currentY--;
                     }
-                } 
+                } else {
+                    this.map.grid[this.currentY][this.currentX] = this.previousMapValue;
+                    var value = this.map.grid[this.currentY - 1][this.currentX];
+                    this.checkDetection(value, this.currentY - 1, this.currentX);
+                    this.map.grid[this.currentY - 1][this.currentX] = this.ghostId;
+                    this.currentY--;
+                }
                 break;
             }
 
@@ -231,7 +249,7 @@ export class Ghost {
                         this.map.grid[this.currentY + 1][this.currentX] = this.ghostId;
                         this.currentY++;
                     }
-                } 
+                }
                 break;
             }
         }

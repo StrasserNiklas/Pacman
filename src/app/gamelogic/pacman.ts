@@ -4,22 +4,15 @@ import { Map } from '../gamelogic/map';
 export class Pacman {
     private map: Map;
     public direction: Direction;
-    private oldDirection: Direction;
-    public lives: number = 1; //TODO leben 3
-    public lastDemandedDirection: Direction;
+    public requestedDirection: Direction;
+    public lives: number = 3;
     public currentX: number = 0;
     public currentY: number = 0;
 
     constructor(map: Map) {
         this.direction = Direction.Right;
-        this.oldDirection = this.direction;
+        this.requestedDirection = undefined;
         this.map = map;
-        this.lastDemandedDirection = this.direction;
-    }
-
-    setDirection(dir: Direction) {
-        this.oldDirection = this.direction;
-        this.direction = dir;
     }
 
     checkDetection(value: number, currentY: number, currentX: number) {
@@ -54,7 +47,41 @@ export class Pacman {
         }
     }
 
+    checkRequestedDirection() {
+        switch (this.requestedDirection) {
+            case Direction.Left:
+                if (this.map.grid[this.currentY][this.currentX - 1] !== 1 && this.map.grid[this.currentY][this.currentX - 1] !== 3) {
+                    this.direction = Direction.Left;
+                    this.requestedDirection = undefined;
+                }
+                break;
+
+            case Direction.Right:
+                if (this.map.grid[this.currentY][this.currentX + 1] !== 1 && this.map.grid[this.currentY][this.currentX + 1] !== 3) {
+                    this.direction = Direction.Right;
+                    this.requestedDirection = undefined;
+                }
+                break;
+
+            case Direction.Up:
+                if (this.map.grid[this.currentY - 1][this.currentX] !== 1 && this.map.grid[this.currentY - 1][this.currentX] !== 3) {
+                    this.direction = Direction.Up;
+                    this.requestedDirection = undefined;
+                }
+                break;
+
+            case Direction.Down:
+                if (this.map.grid[this.currentY + 1][this.currentX ] !== 1 && this.map.grid[this.currentY + 1][this.currentX] !== 3) {
+                    this.direction = Direction.Down;
+                    this.requestedDirection = undefined;
+                }
+                break;
+        }
+    }
+
     move() {
+        this.checkRequestedDirection();
+
         switch (this.direction) {
             case Direction.Left: {
                 if (this.map.grid[this.currentY][this.currentX - 1] !== 1 && this.map.grid[this.currentY][this.currentX - 1] !== 3) {
@@ -72,7 +99,7 @@ export class Pacman {
                         this.currentX--;
                     }
                 } else {
-                    this.direction = this.oldDirection;
+                    this.direction = this.requestedDirection;
                 }
                 break;
             }
@@ -95,7 +122,7 @@ export class Pacman {
                         this.currentX++;
                     }
                 } else {
-                    this.direction = this.oldDirection;
+                    this.direction = this.requestedDirection;
                 }
                 break;
             }
@@ -117,7 +144,7 @@ export class Pacman {
                         this.currentY--;
                     }
                 } else {
-                    this.direction = this.oldDirection;
+                    this.direction = this.requestedDirection;
                 }
                 break;
             }
@@ -138,7 +165,7 @@ export class Pacman {
                         this.currentY++;
                     }
                 } else {
-                    this.direction = this.oldDirection;
+                    this.direction = this.requestedDirection;
                 }
                 break;
             }
