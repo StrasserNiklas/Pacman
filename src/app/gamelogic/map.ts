@@ -5,19 +5,19 @@ import { Pacman } from './pacman';
 import { Ghost } from './ghost';
 
 export class Map {
-  foodCount: number = 0;
+  public foodCount: number = 0;
   public grid;
   public foodGrid;
-  width: number = 31;
-  height: number = 28;
-  document: Document;
-  gamePage: GamePageComponent;
+  public width: number = 31;
+  public height: number = 28;
+  public document: Document;
+  public gamePage: GamePageComponent;
   public mapScore = 0;
-  foodWasHit: boolean = false;
-  foodAudio = new Audio("assets/audio/food.mp3");
-  deathAudio = new Audio("assets/audio/death.mp3");
+  public foodWasHit: boolean = false;
+  public foodAudio = new Audio("assets/audio/food.mp3");
+  public deathAudio = new Audio("assets/audio/death.mp3");
   private ghostHit: boolean = false;
-  private intervallId: any;
+  public intervallId;
   public pacman: Pacman;
   public ghosts: Ghost[] = [];
   public redGhost: Ghost;
@@ -26,6 +26,12 @@ export class Map {
   public greenGhost: Ghost;
   public eatGhostsMode: boolean = false;
   public eatGhostsModeTimer: number = 0;
+
+  public gameOver: boolean = false;
+
+  public gameSpeed: number = 200;
+
+  public timer;
 
   constructor(document: Document, gamePage: GamePageComponent) {
     this.document = document;
@@ -141,10 +147,58 @@ export class Map {
   }
 
   public startGame() {
-    this.intervallId = setInterval(this.moveElements.bind(this), 180);
+    //this.intervallId = setInterval(this.moveElements.bind(this), this.gameSpeed);
+    //this.moveElements();
+    this.timer = setInterval(() => {
+      if (this.gameOver) {
+        clearInterval(this.timer);
+        this.timer = undefined;
+        return;
+      }
+
+      this.ghostHit = false;
+
+      if (this.eatGhostsModeTimer === 0) {
+        this.eatGhostsMode = false;
+      } else {
+        this.eatGhostsModeTimer--;
+      }
+
+      this.pacman.move();
+      this.createMap(false);
+      this.checkHit(this.ghostHit);
+      this.checkFoodHit();
+
+      if (this.foodCount === 0) {
+        //clearInterval(this.intervallId);
+        clearInterval(this.timer);
+        this.timer = undefined;
+        this.gameOver = true;
+        this.gamePage.setGameOver();
+
+      }
+
+      for (let ghost of this.ghosts) {
+        ghost.move();
+
+        if (ghost.collisionReset > 0) {
+          ghost.collisionReset--;
+        }
+
+        if (ghost.deathReset === 0) {
+          ghost.isDead = false;
+        } else {
+          ghost.deathReset--;
+        }
+      }
+
+      this.checkHit(this.ghostHit);
+    }, 180);
   }
 
   private moveElements() {
+    var x = this.gameSpeed;
+
     this.ghostHit = false;
 
     if (this.eatGhostsModeTimer === 0) {
@@ -159,6 +213,10 @@ export class Map {
     this.checkFoodHit();
 
     if (this.foodCount === 0) {
+      //return;
+      clearInterval(this.timer);
+      this.timer = undefined;
+      //clearInterval(this.intervallId);
       this.gamePage.setGameOver();
     }
 
@@ -178,6 +236,7 @@ export class Map {
 
     this.checkHit(this.ghostHit);
 
+    //setTimeout(this.moveElements.bind(this), 180);
   }
 
   public stopGame() {
@@ -244,10 +303,14 @@ export class Map {
   decreaseFoodCount() {
     this.foodCount--;
 
-    if (this.foodCount === 0) { 
+    if (this.foodCount === 0) {
       this.foodAudio.loop = false;
       this.foodAudio.pause();
       this.foodWasHit = false;
+      this.gameOver = true; // NEW
+      clearInterval(this.timer);
+      this.timer = undefined;
+      //this.stopGame();//clearInterval(this.intervallId);
       this.gamePage.userHasWon = true;
       this.gamePage.setGameOver();
     }
@@ -261,6 +324,10 @@ export class Map {
       this.foodAudio.loop = false;
       this.foodAudio.pause();
       this.foodWasHit = false;
+      clearInterval(this.timer);
+      this.timer = undefined;
+      this.gameOver = true;
+      //this.stopGame();
       this.gamePage.userHasWon = false;
       this.gamePage.setGameOver();
     }

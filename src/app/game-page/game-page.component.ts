@@ -18,6 +18,8 @@ export class GamePageComponent implements OnInit, OnDestroy {
   width: number = 31;
   height: number = 28;
   public map: Map;
+
+  previousSize: number = 0;
   preGameAudio = new Audio("assets/audio/beginning.mp3");
   victoryAudio = new Audio("assets/audio/victory.mp3");
   defeatAudio = new Audio("assets/audio/defeat.mp3");
@@ -38,6 +40,7 @@ export class GamePageComponent implements OnInit, OnDestroy {
   }
 
   onStartGame() {
+    this.map.gameSpeed = 200;
     this.preGameAudio.loop = false;
     this.preGameAudio.pause();
     this.preGameAudio.currentTime = 0;
@@ -53,7 +56,7 @@ export class GamePageComponent implements OnInit, OnDestroy {
       this.userHasWon = true;
     }
 
-    this.map.stopGame();
+    //this.map.stopGame();
 
     if (this.userHasWon) {
       this.victoryAudio.play();
@@ -77,9 +80,11 @@ export class GamePageComponent implements OnInit, OnDestroy {
     if (submitDiv != null) {
       if (this.userHasWon) {
         this.setGameWonOverlay();
+        this.setMessageOverlay(this.userHasWon);
 
       } else {
         this.setGameLostOverlay();
+        this.setMessageOverlay(this.userHasWon);
       }
 
       this.adjustFieldSize();
@@ -120,6 +125,13 @@ export class GamePageComponent implements OnInit, OnDestroy {
         size = size - submitDiv.clientHeight;
       }
     }
+
+    // if (Math.abs(size - this.previousSize) === 1) {
+    //   this.previousSize++;
+    //   return;
+    // }
+
+    this.previousSize = size;
 
     if (size < 903) {
       gameField.style.width = size - size / 20 + 'px';

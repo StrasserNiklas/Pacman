@@ -55,6 +55,8 @@ export class ScoreBoardService {
   private parseScoreAndMessagesToString() {
     var index = 0;
 
+    this.scoreMessages = [];
+
     while (index !== this.scores.length) {
       this.scoreMessages.push(this.scores[index] + ' Message: ' + this.messages[index]);
       index++;

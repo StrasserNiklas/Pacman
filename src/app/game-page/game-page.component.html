@@ -1,5 +1,5 @@
 
-<div id="scoreDiv" tabindex="0"  >
+<div id="scoreDiv">
     <div class="center" id="controlsDiv">
         <button *ngIf="!this.gameHasStarted" (click)="this.onStartGame()" >Start game</button>
         <label class="labelStyle"><b>Lives: <span>{{this.map.pacman.lives}}</span></b> </label>
@@ -22,7 +22,7 @@
     </div> -->
 
     <div class="center" *ngIf="this.isGameOver" id="submitDiv"> 
-        <label class="labelStyle"><b>Enter message to appear on the scoreboard:</b> </label>
+        <label class="labelStyle"><b>Enter scoreboard message:</b> </label>
         <input [(ngModel)]="this.scoreMessage">
         <button (click)="this.onSubmitScore()" >Submit score</button>
     </div>

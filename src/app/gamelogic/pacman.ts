@@ -5,7 +5,7 @@ export class Pacman {
     private map: Map;
     public direction: Direction;
     private oldDirection: Direction;
-    public lives: number = 3;
+    public lives: number = 1; //TODO leben 3
     public lastDemandedDirection: Direction;
     public currentX: number = 0;
     public currentY: number = 0;

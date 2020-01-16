@@ -11,7 +11,9 @@ export class ScoreboardPageComponent implements OnInit {
   constructor(private scoreService: ScoreBoardService, private auth: AuthenticationService) { }
 
   ngOnInit() {
-    this.scoreService.getMessages();
+    if (this.scoreService.scoreMessages.length === 0) {
+      this.scoreService.getMessages();
+    }
   }
 
 }
